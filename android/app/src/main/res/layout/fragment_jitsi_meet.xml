@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/jitsi_meet_container"
-    tools:context=".JitsiMeetFragment">
+    tools:context=".fragment.JitsiMeetFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

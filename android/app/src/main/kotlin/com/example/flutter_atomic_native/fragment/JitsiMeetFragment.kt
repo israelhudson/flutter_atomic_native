@@ -1,4 +1,4 @@
-package com.example.flutter_atomic_native
+package com.example.flutter_atomic_native.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.example.flutter_atomic_native.R
 import com.facebook.react.modules.core.PermissionListener
 import org.jitsi.meet.sdk.JitsiMeetActivityInterface
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions

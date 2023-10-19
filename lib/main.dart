@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Android Fragment'),
+        title: const Text('Flutter POC Android Fragment'),
       ),
       body: Container(
         color: Colors.blueGrey,
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             width: 600,
             height: 600,
             child: AndroidView(
-              viewType: 'com.example.app/jitsi-fragment',
+              viewType: 'jitsi-meet-fragment',
               creationParamsCodec: StandardMessageCodec(),
             ),
           ),
