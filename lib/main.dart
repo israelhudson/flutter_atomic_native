@@ -55,10 +55,10 @@ class _HomePageState extends State<HomePage> {
         color: Colors.blueGrey,
         child: const Center(
           child: SizedBox(
-            width: 300,
-            height: 300,
+            width: 600,
+            height: 600,
             child: AndroidView(
-              viewType: 'com.example.app/my-fragment',
+              viewType: 'com.example.app/jitsi-fragment',
               creationParamsCodec: StandardMessageCodec(),
             ),
           ),
