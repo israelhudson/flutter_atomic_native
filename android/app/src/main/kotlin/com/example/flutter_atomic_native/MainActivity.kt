@@ -20,6 +20,7 @@ class MainActivity: FlutterFragmentActivity() {
     }
 }
 
+
 class MyFragmentViewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
         return MyFragmentView(context)

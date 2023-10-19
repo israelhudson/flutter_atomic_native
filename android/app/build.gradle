@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.flutter_atomic_native"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,8 +45,8 @@ android {
         applicationId "com.example.flutter_atomic_native"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 24
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -64,4 +64,7 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    // Jitsi Meet
+    implementation ('org.jitsi.react:jitsi-meet-sdk:8.5.0') { transitive = true }
+}
