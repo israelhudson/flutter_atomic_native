@@ -19,7 +19,7 @@ class JitsiMeetFragmentView(private val context: Context) : PlatformView {
             else -> null
         }
 
-        fragmentManager?.beginTransaction()?.replace(frameLayout.id, JitsiMeetFragment())?.commit()
+        fragmentManager?.beginTransaction()?.replace(frameLayout.id, JitsiMeetFragment(context))?.commit()
     }
 
     override fun getView(): View {
