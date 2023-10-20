@@ -11,8 +11,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.MEDIA_PROJECTION" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -88,5 +86,6 @@
             <meta-data  android:name="org.jitsi.meet.sdk.JitsiInitializer"
                 android:value="androidx.startup" />
         </provider>
+
     </application>
 </manifest>

@@ -1,85 +1,26 @@
 package com.example.flutter_atomic_native.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.fragment.app.Fragment
 import com.example.flutter_atomic_native.R
+import com.example.flutter_atomic_native.fragment.broadcast.MeetBroadcastManager
 import com.facebook.react.modules.core.PermissionListener
 import org.jitsi.meet.sdk.BroadcastEvent
-import org.jitsi.meet.sdk.BroadcastReceiver
 import org.jitsi.meet.sdk.JitsiMeetActivityInterface
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions
-import org.jitsi.meet.sdk.JitsiMeetOngoingConferenceService
 import org.jitsi.meet.sdk.JitsiMeetView
-import org.jitsi.meet.sdk.log.JitsiMeetLogger
 import java.net.URL
 
 class JitsiMeetFragment (context: Context): Fragment(), JitsiMeetActivityInterface {
 
     private var jitsiMeetView: JitsiMeetView? = null
-
-    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver(context) {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            onBroadcastReceived(intent)
-        }
-    }
-
-    private fun onBroadcastReceived(intent: Intent?) {
-        if (intent != null) {
-            val event = BroadcastEvent(intent)
-            when (event.type) {
-                BroadcastEvent.Type.CONFERENCE_JOINED -> onConferenceJoined(event.data)
-                BroadcastEvent.Type.CONFERENCE_WILL_JOIN -> onConferenceWillJoin(event.data)
-                BroadcastEvent.Type.CONFERENCE_TERMINATED -> onConferenceTerminated(event.data)
-                BroadcastEvent.Type.PARTICIPANT_JOINED -> onParticipantJoined(event.data)
-                BroadcastEvent.Type.PARTICIPANT_LEFT -> onParticipantLeft(event.data)
-                BroadcastEvent.Type.READY_TO_CLOSE -> onReadyToClose()
-                else -> {}
-            }
-        }
-    }
-
-    protected fun onConferenceJoined(extraData: HashMap<String?, Any?>) {
-        JitsiMeetLogger.i("Conference joined: $extraData")
-        // Launch the service for the ongoing notification.
-        JitsiMeetOngoingConferenceService.launch(this.context, extraData)
-
-    }
-
-    protected fun onConferenceTerminated(extraData: HashMap<String?, Any?>) {
-        JitsiMeetLogger.i("Conference terminated: $extraData")
-    }
-
-    protected fun onConferenceWillJoin(extraData: HashMap<String?, Any?>) {
-        JitsiMeetLogger.i("Conference will join: $extraData")
-    }
-
-    protected fun onParticipantJoined(extraData: HashMap<String?, Any?>?) {
-        try {
-            JitsiMeetLogger.i("Participant joined: ", extraData)
-        } catch (e: Exception) {
-            JitsiMeetLogger.w("Invalid participant joined extraData", e)
-        }
-    }
-
-    protected fun onParticipantLeft(extraData: HashMap<String?, Any?>?) {
-        try {
-            JitsiMeetLogger.i("Participant left: ", extraData)
-        } catch (e: Exception) {
-            JitsiMeetLogger.w("Invalid participant left extraData", e)
-        }
-    }
-
-    protected fun onReadyToClose() {
-        JitsiMeetLogger.i("SDK is ready to close")
-    }
+    private var meetBroadcastEvents: MeetBroadcastManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,7 +56,9 @@ class JitsiMeetFragment (context: Context): Fragment(), JitsiMeetActivityInterfa
             intentFilter.addAction(type.action)
         }
 
-        LocalBroadcastManager.getInstance(view.context).registerReceiver(broadcastReceiver, intentFilter)
+        meetBroadcastEvents = MeetBroadcastManager(view.context)
+
+        //LocalBroadcastManager.getInstance(view.context).registerReceiver(broadcastReceiver, intentFilter)//Sem isso nao compartilha tela a partir do android 10
     }
 
     override fun onDestroyView() {
@@ -124,6 +67,7 @@ class JitsiMeetFragment (context: Context): Fragment(), JitsiMeetActivityInterfa
         // Dispose of JitsiMeetView
         jitsiMeetView?.dispose()
         jitsiMeetView = null
+        meetBroadcastEvents?.unregister()
     }
 
     override fun checkPermission(p0: String?, p1: Int, p2: Int): Int {
